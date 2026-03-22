@@ -1,0 +1,159 @@
+---
+import { states, counties } from '../data/constants';
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo" style="margin-bottom:1rem;">
+          <div class="logo-text">
+            <span class="logo-title">US County <strong>Directory</strong></span>
+            <span class="logo-sub">LOCAL BUSINESS NETWORK</span>
+          </div>
+        </div>
+        <p>Connecting communities and businesses across America. Your gateway to local business directories, deals, and community connections.</p>
+        <div class="footer-mappulse">
+          <span>Part of the</span>
+          <a href="https://mappulse.agency" target="_blank" rel="noopener">MapPulse Network</a>
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <h4>States</h4>
+        {states.filter(s => s.active).map(s => (
+          <a href={`/states/${s.slug}/`}>{s.name}</a>
+        ))}
+        <span class="coming-soon">More states coming soon</span>
+      </div>
+
+      <div class="footer-links">
+        <h4>Mississippi Counties</h4>
+        {counties.map(c => (
+          <a href={c.url} target="_blank" rel="noopener">{c.name}</a>
+        ))}
+      </div>
+
+      <div class="footer-links">
+        <h4>Company</h4>
+        <a href="/">Home</a>
+        <a href="/pricing/">Pricing</a>
+        <a href="/contact/">Contact</a>
+        <a href="/privacy/">Privacy Policy</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 USCountyDirectory.com &mdash; Part of the MapPulse Network</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--navy);
+    padding: 4rem 0 0;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .footer-brand p {
+    color: rgba(255,255,255,0.55);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    max-width: 300px;
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-mappulse {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .footer-mappulse a {
+    color: var(--gold);
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+
+  .footer-mappulse a:hover {
+    color: var(--gold-light);
+  }
+
+  .logo { display: flex; align-items: center; gap: 0.75rem; }
+  .logo-text { display: flex; flex-direction: column; }
+
+  .logo-title {
+    font-family: var(--font-heading);
+    font-weight: 400;
+    font-size: 1.15rem;
+    color: var(--white);
+    line-height: 1.2;
+    font-style: italic;
+  }
+
+  .logo-title strong { font-weight: 700; font-style: normal; }
+
+  .logo-sub {
+    font-size: 0.6rem;
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .footer-links h4 {
+    font-family: var(--font-heading);
+    color: var(--white);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-links a {
+    color: rgba(255,255,255,0.55);
+    font-size: 0.88rem;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--gold); }
+
+  .coming-soon {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.3);
+    font-style: italic;
+    margin-top: 0.5rem;
+  }
+
+  .footer-bottom {
+    padding: 1.5rem 0;
+    text-align: center;
+  }
+
+  .footer-bottom p {
+    color: rgba(255,255,255,0.35);
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 900px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  }
+
+  @media (max-width: 600px) {
+    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+  }
+</style>

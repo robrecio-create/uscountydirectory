@@ -1,0 +1,696 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { states, stats, counties } from '../data/constants';
+---
+
+<Layout
+  title="US County Directory — America's Local Business Network"
+  description="Discover local businesses across America. Your gateway to county-level business directories, local deals, and community connections."
+>
+  <Header activePage="Home" />
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="container hero-content">
+      <span class="hero-eyebrow animate">LOCAL BUSINESS NETWORK</span>
+      <h1 class="animate delay-1">America's Local<br /><em>Business Network</em></h1>
+      <p class="hero-sub animate delay-2">
+        Connecting communities with local businesses across the nation. 
+        Discover deals, services, and trusted businesses in your county.
+      </p>
+      <div class="hero-cta animate delay-3">
+        <a href="/states/mississippi/" class="btn btn-gold">Explore Mississippi</a>
+        <a href="/pricing/" class="btn btn-outline">List Your Business</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid animate">
+        <div class="stat-item">
+          <span class="stat-number">{stats.states}</span>
+          <span class="stat-label">State</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">{stats.counties}</span>
+          <span class="stat-label">Counties</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">{stats.businesses.toLocaleString()}+</span>
+          <span class="stat-label">Businesses</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- States Section -->
+  <section class="states-section">
+    <div class="container">
+      <div class="section-header animate">
+        <span class="section-eyebrow">Browse by State</span>
+        <h2>Explore Our Network</h2>
+        <p>Find local businesses, deals, and services in your state</p>
+      </div>
+
+      <div class="states-grid">
+        {states.filter(s => s.active).map((state, i) => (
+          <a href={`/states/${state.slug}/`} class={`state-card animate delay-${i + 1}`}>
+            <div class="state-flag">🏛️</div>
+            <div class="state-info">
+              <h3>{state.name}</h3>
+              <div class="state-stats">
+                <span>{state.counties} Counties</span>
+                <span class="dot">•</span>
+                <span>{state.businesses.toLocaleString()} Businesses</span>
+              </div>
+            </div>
+            <div class="state-arrow">→</div>
+          </a>
+        ))}
+      </div>
+
+      <div class="coming-soon-banner animate delay-2">
+        <div class="banner-icon">🚀</div>
+        <div class="banner-text">
+          <h4>Expanding Nationwide</h4>
+          <p>More states coming soon. Want to bring the County Directory to your state? <a href="/contact/">Get in touch</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Counties Preview -->
+  <section class="counties-preview">
+    <div class="container">
+      <div class="section-header animate">
+        <span class="section-eyebrow">Mississippi Gulf Coast</span>
+        <h2>Our Flagship Region</h2>
+        <p>Three thriving counties with over 2,000 local businesses</p>
+      </div>
+
+      <div class="counties-grid">
+        {counties.map((county, i) => (
+          <a href={county.url} target="_blank" rel="noopener" class={`county-card animate delay-${i + 1}`}>
+            <div class="county-header">
+              <h3>{county.name}</h3>
+              <span class="county-state">{county.state}</span>
+            </div>
+            <p class="county-desc">{county.description}</p>
+            <div class="county-footer">
+              <span class="county-count">{county.businesses.toLocaleString()} businesses</span>
+              <span class="county-link">Visit Directory →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Preview -->
+  <section class="pricing-preview">
+    <div class="container">
+      <div class="pricing-content animate">
+        <div class="pricing-text">
+          <span class="section-eyebrow">For Business Owners</span>
+          <h2>Get Your Business Listed</h2>
+          <p>
+            Join thousands of local businesses connecting with customers in their community. 
+            Start with a free verified listing or upgrade for premium visibility.
+          </p>
+          <ul class="pricing-highlights">
+            <li><span class="check">✓</span> Free verified listings available</li>
+            <li><span class="check">✓</span> Featured placement from $29/mo</li>
+            <li><span class="check">✓</span> Full SEO packages from $500/mo</li>
+            <li><span class="check">✓</span> Post deals and coupons</li>
+          </ul>
+          <a href="/pricing/" class="btn btn-gold">View Pricing Plans</a>
+        </div>
+        <div class="pricing-visual">
+          <div class="pricing-card-preview">
+            <div class="card-badge">Most Popular</div>
+            <h4>Featured Listing</h4>
+            <div class="card-price">
+              <span class="price">$29</span>
+              <span class="period">/month</span>
+            </div>
+            <p>Stand out from the crowd with priority placement, multiple photos, and a featured badge.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content animate">
+        <h2>Ready to Grow Your Business?</h2>
+        <p>Join the MapPulse network and connect with customers in your community.</p>
+        <div class="cta-buttons">
+          <a href="/contact/" class="btn btn-gold">Get Started Today</a>
+          <a href="/states/mississippi/" class="btn btn-outline">Explore Mississippi</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<style>
+  /* ── Hero ── */
+  .hero {
+    position: relative;
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 50%, var(--navy-light) 100%);
+    overflow: hidden;
+    padding-top: 72px;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      radial-gradient(ellipse at 20% 80%, rgba(26,127,122,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(232,160,32,0.1) 0%, transparent 50%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 4rem 0 6rem;
+  }
+
+  .hero-eyebrow {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-sub {
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.75);
+    max-width: 600px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: var(--radius-md);
+    border: 2px solid transparent;
+    transition: all 0.25s;
+  }
+
+  .btn-gold {
+    background: var(--gold);
+    color: var(--navy);
+    border-color: var(--gold);
+  }
+
+  .btn-gold:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(232,160,32,0.35);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    border-color: rgba(255,255,255,0.3);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--white);
+    background: rgba(255,255,255,0.1);
+    transform: translateY(-2px);
+  }
+
+  /* ── Stats ── */
+  .stats-section {
+    background: var(--teal);
+    padding: 2.5rem 0;
+  }
+
+  .stats-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-number {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.8);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 50px;
+    background: rgba(255,255,255,0.2);
+  }
+
+  /* ── Section Headers ── */
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .section-eyebrow {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-header h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: var(--navy);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-header p {
+    color: var(--gray-600);
+    font-size: 1.1rem;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* ── States Section ── */
+  .states-section {
+    padding: 5rem 0;
+    background: var(--gray-100);
+  }
+
+  .states-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .state-card {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    transition: all 0.3s;
+  }
+
+  .state-card:hover {
+    border-color: var(--teal);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px);
+  }
+
+  .state-flag {
+    width: 60px;
+    height: 60px;
+    background: var(--navy);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    flex-shrink: 0;
+  }
+
+  .state-info {
+    flex: 1;
+  }
+
+  .state-info h3 {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    color: var(--navy);
+    margin-bottom: 0.25rem;
+  }
+
+  .state-stats {
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .dot {
+    color: var(--gray-400);
+  }
+
+  .state-arrow {
+    font-size: 1.5rem;
+    color: var(--teal);
+    transition: transform 0.2s;
+  }
+
+  .state-card:hover .state-arrow {
+    transform: translateX(4px);
+  }
+
+  .coming-soon-banner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+  }
+
+  .banner-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(255,255,255,0.1);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    flex-shrink: 0;
+  }
+
+  .banner-text h4 {
+    font-family: var(--font-heading);
+    color: var(--white);
+    font-size: 1.15rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .banner-text p {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.95rem;
+  }
+
+  .banner-text a {
+    color: var(--gold);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  /* ── Counties Preview ── */
+  .counties-preview {
+    padding: 5rem 0;
+    background: var(--white);
+  }
+
+  .counties-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .county-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .county-card:hover {
+    border-color: var(--teal);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px);
+  }
+
+  .county-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+  }
+
+  .county-header h3 {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    color: var(--navy);
+  }
+
+  .county-state {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--teal);
+    background: rgba(26,127,122,0.1);
+    padding: 0.25rem 0.6rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .county-desc {
+    font-size: 0.9rem;
+    color: var(--gray-600);
+    line-height: 1.6;
+    flex: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  .county-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--gray-200);
+  }
+
+  .county-count {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--navy);
+  }
+
+  .county-link {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--teal);
+    transition: color 0.2s;
+  }
+
+  .county-card:hover .county-link {
+    color: var(--gold);
+  }
+
+  /* ── Pricing Preview ── */
+  .pricing-preview {
+    padding: 5rem 0;
+    background: var(--gray-100);
+  }
+
+  .pricing-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .pricing-text .section-eyebrow {
+    margin-bottom: 0.5rem;
+  }
+
+  .pricing-text h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.8rem, 3vw, 2.2rem);
+    color: var(--navy);
+    margin-bottom: 1rem;
+  }
+
+  .pricing-text > p {
+    color: var(--gray-600);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .pricing-highlights {
+    list-style: none;
+    margin-bottom: 2rem;
+  }
+
+  .pricing-highlights li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    font-size: 0.95rem;
+    color: var(--gray-700);
+  }
+
+  .pricing-highlights .check {
+    color: var(--teal);
+    font-weight: 700;
+  }
+
+  .pricing-visual {
+    display: flex;
+    justify-content: center;
+  }
+
+  .pricing-card-preview {
+    background: var(--white);
+    border: 2px solid var(--gold);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem 2rem;
+    max-width: 320px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 8px 40px rgba(232,160,32,0.15);
+  }
+
+  .card-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--white);
+    background: var(--gold);
+    padding: 0.3rem 1rem;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  .pricing-card-preview h4 {
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    color: var(--navy);
+    margin-bottom: 0.75rem;
+  }
+
+  .card-price {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.15rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-price .price {
+    font-family: var(--font-heading);
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .card-price .period {
+    font-size: 1rem;
+    color: var(--gray-600);
+  }
+
+  .pricing-card-preview > p {
+    font-size: 0.9rem;
+    color: var(--gray-600);
+    line-height: 1.6;
+  }
+
+  /* ── CTA Section ── */
+  .cta-section {
+    padding: 5rem 0;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+  }
+
+  .cta-content {
+    text-align: center;
+  }
+
+  .cta-content h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: var(--white);
+    margin-bottom: 0.75rem;
+  }
+
+  .cta-content > p {
+    color: rgba(255,255,255,0.7);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .counties-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
+    .pricing-content { grid-template-columns: 1fr; text-align: center; }
+    .pricing-text .section-eyebrow { display: block; }
+    .pricing-highlights { max-width: 350px; margin-left: auto; margin-right: auto; }
+    .pricing-highlights li { justify-content: center; }
+  }
+
+  @media (max-width: 600px) {
+    .states-grid { grid-template-columns: 1fr; }
+    .stats-grid { flex-direction: column; gap: 1.5rem; }
+    .stat-divider { width: 50px; height: 1px; }
+    .coming-soon-banner { flex-direction: column; text-align: center; }
+  }
+</style>

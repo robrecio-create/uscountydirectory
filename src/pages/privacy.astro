@@ -1,0 +1,218 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Privacy Policy — US County Directory"
+  description="Privacy policy for US County Directory. Learn how we collect, use, and protect your information."
+>
+  <Header activePage="" />
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="page-eyebrow">Legal</span>
+      <h1>Privacy Policy</h1>
+      <p>Last updated: March 2026</p>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="container">
+      <div class="content-wrapper">
+        <h2>Introduction</h2>
+        <p>
+          US County Directory ("we," "our," or "us") is committed to protecting your privacy. 
+          This Privacy Policy explains how we collect, use, disclose, and safeguard your information 
+          when you visit our website uscountydirectory.com and our county directory sites.
+        </p>
+
+        <h2>Information We Collect</h2>
+        <h3>Personal Information</h3>
+        <p>We may collect personal information that you voluntarily provide to us when you:</p>
+        <ul>
+          <li>Create or claim a business listing</li>
+          <li>Contact us through our contact form</li>
+          <li>Subscribe to our newsletter</li>
+          <li>Purchase a paid listing plan</li>
+        </ul>
+        <p>
+          This information may include your name, email address, phone number, business name, 
+          and business address.
+        </p>
+
+        <h3>Automatically Collected Information</h3>
+        <p>
+          When you visit our site, we may automatically collect certain information about your 
+          device, including information about your web browser, IP address, time zone, and some 
+          of the cookies installed on your device.
+        </p>
+
+        <h2>How We Use Your Information</h2>
+        <p>We use the information we collect to:</p>
+        <ul>
+          <li>Display your business listing on our directory sites</li>
+          <li>Process your transactions and manage your account</li>
+          <li>Send you updates about your listing</li>
+          <li>Respond to your inquiries and provide customer support</li>
+          <li>Improve our website and services</li>
+          <li>Send marketing communications (with your consent)</li>
+        </ul>
+
+        <h2>Information Sharing</h2>
+        <p>
+          We do not sell, trade, or rent your personal information to third parties. We may share 
+          your information with:
+        </p>
+        <ul>
+          <li>Service providers who assist us in operating our website</li>
+          <li>Law enforcement when required by law</li>
+          <li>Business partners with your explicit consent</li>
+        </ul>
+
+        <h2>Business Listing Information</h2>
+        <p>
+          Information you provide for your business listing (business name, address, phone, 
+          description, photos, etc.) will be publicly displayed on our directory sites. This 
+          is the intended purpose of our service.
+        </p>
+
+        <h2>Cookies</h2>
+        <p>
+          We use cookies and similar tracking technologies to track activity on our website and 
+          store certain information. You can instruct your browser to refuse all cookies or to 
+          indicate when a cookie is being sent.
+        </p>
+
+        <h2>Data Security</h2>
+        <p>
+          We implement appropriate security measures to protect your personal information. 
+          However, no method of transmission over the Internet is 100% secure, and we cannot 
+          guarantee absolute security.
+        </p>
+
+        <h2>Your Rights</h2>
+        <p>You have the right to:</p>
+        <ul>
+          <li>Access the personal information we hold about you</li>
+          <li>Request correction of inaccurate information</li>
+          <li>Request deletion of your personal information</li>
+          <li>Opt out of marketing communications</li>
+        </ul>
+
+        <h2>Children's Privacy</h2>
+        <p>
+          Our service is not directed to children under 13. We do not knowingly collect 
+          personal information from children under 13.
+        </p>
+
+        <h2>Changes to This Policy</h2>
+        <p>
+          We may update this Privacy Policy from time to time. We will notify you of any 
+          changes by posting the new Privacy Policy on this page and updating the "Last updated" date.
+        </p>
+
+        <h2>Contact Us</h2>
+        <p>
+          If you have questions about this Privacy Policy, please contact us at:
+        </p>
+        <p>
+          <strong>Email:</strong> <a href="mailto:privacy@uscountydirectory.com">privacy@uscountydirectory.com</a><br />
+          <strong>Address:</strong> Ocean Springs, Mississippi
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<style>
+  .page-hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    padding: 8rem 0 3.5rem;
+    text-align: center;
+  }
+
+  .page-eyebrow {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+
+  .page-hero h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--white);
+    margin-bottom: 0.75rem;
+  }
+
+  .page-hero p {
+    color: rgba(255,255,255,0.7);
+    font-size: 1rem;
+  }
+
+  .content-section {
+    padding: 4rem 0 5rem;
+    background: var(--white);
+  }
+
+  .content-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .content-wrapper h2 {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    color: var(--navy);
+    margin: 2.5rem 0 1rem;
+  }
+
+  .content-wrapper h2:first-child {
+    margin-top: 0;
+  }
+
+  .content-wrapper h3 {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    color: var(--navy);
+    margin: 1.5rem 0 0.75rem;
+  }
+
+  .content-wrapper p {
+    color: var(--gray-700);
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+
+  .content-wrapper ul {
+    margin: 1rem 0 1.5rem 1.5rem;
+  }
+
+  .content-wrapper li {
+    color: var(--gray-700);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 0.5rem;
+  }
+
+  .content-wrapper a {
+    color: var(--teal);
+    font-weight: 500;
+  }
+
+  .content-wrapper a:hover {
+    color: var(--gold);
+  }
+
+  .content-wrapper strong {
+    color: var(--navy);
+  }
+</style>

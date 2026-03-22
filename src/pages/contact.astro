@@ -1,0 +1,435 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Contact Us — US County Directory"
+  description="Get in touch with the US County Directory team. Questions about listings, pricing, or partnerships? We're here to help."
+>
+  <Header activePage="Contact" />
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="page-eyebrow">Get in Touch</span>
+      <h1>Contact Us</h1>
+      <p>Questions about listings, pricing, or partnerships? We'd love to hear from you.</p>
+    </div>
+  </section>
+
+  <section class="contact-section">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-form-wrapper animate">
+          <h2>Send Us a Message</h2>
+          <form class="contact-form" id="contact-form">
+            <div class="form-group">
+              <label for="name">Your Name *</label>
+              <input type="text" id="name" name="name" required placeholder="John Smith" />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" name="email" required placeholder="john@example.com" />
+            </div>
+
+            <div class="form-group">
+              <label for="business">Business Name</label>
+              <input type="text" id="business" name="business" placeholder="Your Business Inc." />
+            </div>
+
+            <div class="form-group">
+              <label for="subject">Subject *</label>
+              <select id="subject" name="subject" required>
+                <option value="">Select a topic...</option>
+                <option value="listing">Claim or Update a Listing</option>
+                <option value="pricing">Pricing & Plans</option>
+                <option value="partnership">Partnership Inquiry</option>
+                <option value="support">Technical Support</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="message">Message *</label>
+              <textarea id="message" name="message" required rows="5" placeholder="How can we help you?"></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-gold">Send Message</button>
+            </div>
+          </form>
+
+          <div id="form-success" class="form-success" style="display: none;">
+            <div class="success-icon">✓</div>
+            <h3>Message Sent!</h3>
+            <p>Thank you for reaching out. We'll get back to you within 1-2 business days.</p>
+          </div>
+        </div>
+
+        <div class="contact-info animate delay-1">
+          <div class="info-card">
+            <h3>Quick Contact</h3>
+            <div class="info-item">
+              <span class="info-icon">📍</span>
+              <div>
+                <strong>Location</strong>
+                <p>Ocean Springs, Mississippi<br />Gulf Coast Region</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <span class="info-icon">📧</span>
+              <div>
+                <strong>Email</strong>
+                <p><a href="mailto:hello@uscountydirectory.com">hello@uscountydirectory.com</a></p>
+              </div>
+            </div>
+            <div class="info-item">
+              <span class="info-icon">⏰</span>
+              <div>
+                <strong>Response Time</strong>
+                <p>Usually within 1-2 business days</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <h3>For Business Owners</h3>
+            <p>Ready to get your business listed? Check out our pricing plans to find the right fit.</p>
+            <a href="/pricing/" class="btn btn-outline">View Pricing</a>
+          </div>
+
+          <div class="info-card mappulse-card">
+            <span class="card-badge">MapPulse Network</span>
+            <h3>Need Full SEO Services?</h3>
+            <p>Visit MapPulse Agency for comprehensive local SEO, website design, and Google Business Profile optimization.</p>
+            <a href="https://mappulse.agency" target="_blank" rel="noopener" class="btn btn-outline">Visit MapPulse</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<style>
+  .page-hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    padding: 8rem 0 3.5rem;
+    text-align: center;
+  }
+
+  .page-eyebrow {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+
+  .page-hero h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--white);
+    margin-bottom: 0.75rem;
+  }
+
+  .page-hero p {
+    color: rgba(255,255,255,0.7);
+    font-size: 1.1rem;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .contact-section {
+    padding: 4rem 0 5rem;
+    background: var(--gray-100);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .contact-form-wrapper {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+  }
+
+  .contact-form-wrapper h2 {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    color: var(--navy);
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .form-group.full-width {
+    grid-column: 1 / -1;
+  }
+
+  .form-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--gray-700);
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    font-family: var(--font-body);
+    color: var(--gray-800);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(26,127,122,0.1);
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: var(--gray-400);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .form-actions {
+    grid-column: 1 / -1;
+    margin-top: 0.5rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: var(--radius-md);
+    border: 2px solid transparent;
+    transition: all 0.25s;
+    cursor: pointer;
+  }
+
+  .btn-gold {
+    background: var(--gold);
+    color: var(--navy);
+    border-color: var(--gold);
+  }
+
+  .btn-gold:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(232,160,32,0.35);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--navy);
+    border-color: var(--gray-200);
+    width: 100%;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--teal);
+    color: var(--teal);
+    transform: translateY(-2px);
+  }
+
+  .form-success {
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .success-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--teal);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin: 0 auto 1rem;
+  }
+
+  .form-success h3 {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    color: var(--navy);
+    margin-bottom: 0.5rem;
+  }
+
+  .form-success p {
+    color: var(--gray-600);
+    font-size: 0.95rem;
+  }
+
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .info-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    position: relative;
+  }
+
+  .info-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    color: var(--navy);
+    margin-bottom: 1rem;
+  }
+
+  .info-card > p {
+    color: var(--gray-600);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .info-item {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .info-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .info-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--gray-100);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .info-item strong {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--navy);
+    margin-bottom: 0.15rem;
+  }
+
+  .info-item p {
+    font-size: 0.9rem;
+    color: var(--gray-600);
+    line-height: 1.5;
+  }
+
+  .info-item a {
+    color: var(--teal);
+    font-weight: 500;
+  }
+
+  .info-item a:hover {
+    color: var(--gold);
+  }
+
+  .mappulse-card {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    border-color: transparent;
+  }
+
+  .mappulse-card h3 {
+    color: var(--white);
+  }
+
+  .mappulse-card > p {
+    color: rgba(255,255,255,0.7);
+  }
+
+  .mappulse-card .btn-outline {
+    color: var(--white);
+    border-color: rgba(255,255,255,0.3);
+  }
+
+  .mappulse-card .btn-outline:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: var(--white);
+  }
+
+  .card-badge {
+    position: absolute;
+    top: -10px;
+    left: 1.5rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--navy);
+    background: var(--gold);
+    padding: 0.25rem 0.75rem;
+    border-radius: 100px;
+  }
+
+  @media (max-width: 900px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .contact-form {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const successMsg = document.getElementById('form-success');
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    // In production, you'd send this to a backend or service like Formspree
+    // For now, just show success message
+    form.style.display = 'none';
+    if (successMsg) {
+      successMsg.style.display = 'block';
+    }
+  });
+</script>

@@ -1,0 +1,625 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { counties } from '../../data/constants';
+
+const msCounties = counties.filter(c => c.state === 'MS');
+const totalBusinesses = msCounties.reduce((sum, c) => sum + c.businesses, 0);
+---
+
+<Layout
+  title="Mississippi — US County Directory"
+  description="Explore local businesses across Mississippi's Gulf Coast. Jackson County, Harrison County, and Hancock County directories featuring over 2,100 local businesses."
+>
+  <Header activePage="States" />
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="container hero-content">
+      <span class="hero-eyebrow animate">MISSISSIPPI</span>
+      <h1 class="animate delay-1">The Gulf Coast<br /><em>Business Network</em></h1>
+      <p class="hero-sub animate delay-2">
+        Discover local businesses across Mississippi's beautiful Gulf Coast region. 
+        Three thriving counties with thousands of restaurants, shops, services, and more.
+      </p>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid animate">
+        <div class="stat-item">
+          <span class="stat-number">{msCounties.length}</span>
+          <span class="stat-label">Counties</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">{totalBusinesses.toLocaleString()}+</span>
+          <span class="stat-label">Businesses</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">17</span>
+          <span class="stat-label">Cities & Towns</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Region Info -->
+  <section class="region-section">
+    <div class="container">
+      <div class="region-content animate">
+        <div class="region-text">
+          <span class="section-eyebrow">The MS Gulf Coast</span>
+          <h2>Where Coastal Charm<br />Meets Southern Hospitality</h2>
+          <p>
+            The Mississippi Gulf Coast stretches along 62 miles of beautiful shoreline, 
+            offering a unique blend of beaches, casinos, historic towns, and thriving 
+            local businesses. From the artistic community of Ocean Springs to the 
+            entertainment hub of Biloxi, there's something for everyone.
+          </p>
+          <div class="region-highlights">
+            <div class="highlight-item">
+              <span class="highlight-icon">🏖️</span>
+              <span>62 Miles of Coastline</span>
+            </div>
+            <div class="highlight-item">
+              <span class="highlight-icon">🎰</span>
+              <span>World-Class Casinos</span>
+            </div>
+            <div class="highlight-item">
+              <span class="highlight-icon">🎨</span>
+              <span>Arts & Culture</span>
+            </div>
+            <div class="highlight-item">
+              <span class="highlight-icon">🦐</span>
+              <span>Fresh Gulf Seafood</span>
+            </div>
+          </div>
+        </div>
+        <div class="region-map">
+          <div class="map-placeholder">
+            <div class="map-counties">
+              <div class="map-county hancock">
+                <span class="county-name">Hancock</span>
+              </div>
+              <div class="map-county harrison">
+                <span class="county-name">Harrison</span>
+              </div>
+              <div class="map-county jackson">
+                <span class="county-name">Jackson</span>
+              </div>
+            </div>
+            <div class="map-coast">Gulf of Mexico</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Counties Section -->
+  <section class="counties-section">
+    <div class="container">
+      <div class="section-header animate">
+        <span class="section-eyebrow">County Directories</span>
+        <h2>Explore Each County</h2>
+        <p>Click on a county to browse local businesses, deals, and services</p>
+      </div>
+
+      <div class="counties-grid">
+        {msCounties.map((county, i) => (
+          <a href={county.url} target="_blank" rel="noopener" class={`county-card animate delay-${i + 1}`}>
+            <div class="county-badge">{county.businesses.toLocaleString()} Businesses</div>
+            <div class="county-content">
+              <h3>{county.name}</h3>
+              <p>{county.description}</p>
+              <ul class="county-features">
+                <li>Local Business Directory</li>
+                <li>Coupons & Deals</li>
+                <li>Community Events</li>
+                <li>Service Listings</li>
+              </ul>
+            </div>
+            <div class="county-footer">
+              <span class="explore-btn">
+                Explore {county.name.split(' ')[0]} →
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Business Owner CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content animate">
+        <div class="cta-text">
+          <span class="section-eyebrow">For Business Owners</span>
+          <h2>List Your Mississippi Business</h2>
+          <p>
+            Get found by customers searching for local businesses on the Gulf Coast. 
+            Start with a free verified listing or upgrade for premium visibility across 
+            all three county directories.
+          </p>
+          <div class="cta-buttons">
+            <a href="/pricing/" class="btn btn-gold">View Pricing Plans</a>
+            <a href="/contact/" class="btn btn-outline">Contact Us</a>
+          </div>
+        </div>
+        <div class="cta-stats">
+          <div class="cta-stat">
+            <span class="cta-stat-number">Free</span>
+            <span class="cta-stat-label">Verified Listings</span>
+          </div>
+          <div class="cta-stat">
+            <span class="cta-stat-number">$29</span>
+            <span class="cta-stat-label">Featured Listing</span>
+          </div>
+          <div class="cta-stat">
+            <span class="cta-stat-number">$500</span>
+            <span class="cta-stat-label">Full SEO Package</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<style>
+  /* ── Hero ── */
+  .hero {
+    position: relative;
+    padding: 10rem 0 5rem;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 50%, var(--navy-light) 100%);
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      radial-gradient(ellipse at 20% 80%, rgba(26,127,122,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(232,160,32,0.1) 0%, transparent 50%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+
+  .hero-eyebrow {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-sub {
+    font-size: 1.15rem;
+    color: rgba(255,255,255,0.75);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* ── Stats ── */
+  .stats-section {
+    background: var(--teal);
+    padding: 2.5rem 0;
+  }
+
+  .stats-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-number {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.8);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 50px;
+    background: rgba(255,255,255,0.2);
+  }
+
+  /* ── Section Headers ── */
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .section-eyebrow {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-header h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: var(--navy);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-header p {
+    color: var(--gray-600);
+    font-size: 1.1rem;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* ── Region Section ── */
+  .region-section {
+    padding: 5rem 0;
+    background: var(--gray-100);
+  }
+
+  .region-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .region-text .section-eyebrow {
+    margin-bottom: 0.5rem;
+  }
+
+  .region-text h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.8rem, 3vw, 2.2rem);
+    color: var(--navy);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .region-text > p {
+    color: var(--gray-600);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .region-highlights {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .highlight-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--gray-700);
+  }
+
+  .highlight-icon {
+    font-size: 1.3rem;
+  }
+
+  .region-map {
+    display: flex;
+    justify-content: center;
+  }
+
+  .map-placeholder {
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 16/10;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .map-counties {
+    display: flex;
+    height: 70%;
+    padding: 1rem;
+    gap: 0.5rem;
+  }
+
+  .map-county {
+    flex: 1;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.75rem;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .map-county.hancock { background: var(--teal); }
+  .map-county.harrison { background: var(--navy); }
+  .map-county.jackson { background: var(--gold); color: var(--navy); }
+
+  .map-coast {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    background: linear-gradient(180deg, rgba(26,127,122,0.1) 0%, rgba(26,127,122,0.3) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  /* ── Counties Section ── */
+  .counties-section {
+    padding: 5rem 0;
+    background: var(--white);
+  }
+
+  .counties-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .county-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .county-card:hover {
+    border-color: var(--teal);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-6px);
+  }
+
+  .county-badge {
+    background: var(--navy);
+    color: var(--white);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-align: center;
+    padding: 0.75rem;
+    letter-spacing: 0.5px;
+  }
+
+  .county-content {
+    padding: 2rem;
+    flex: 1;
+  }
+
+  .county-content h3 {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    color: var(--navy);
+    margin-bottom: 0.5rem;
+  }
+
+  .county-content > p {
+    font-size: 0.9rem;
+    color: var(--gray-600);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .county-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .county-features li {
+    font-size: 0.85rem;
+    color: var(--gray-700);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .county-features li::before {
+    content: '✓';
+    color: var(--teal);
+    font-weight: 700;
+  }
+
+  .county-footer {
+    padding: 1.25rem 2rem;
+    border-top: 1px solid var(--gray-200);
+    background: var(--gray-100);
+  }
+
+  .explore-btn {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--teal);
+    transition: color 0.2s;
+  }
+
+  .county-card:hover .explore-btn {
+    color: var(--gold);
+  }
+
+  /* ── CTA Section ── */
+  .cta-section {
+    padding: 5rem 0;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+  }
+
+  .cta-content {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .cta-text .section-eyebrow {
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .cta-text h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.8rem, 3vw, 2.2rem);
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+
+  .cta-text > p {
+    color: rgba(255,255,255,0.7);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: var(--radius-md);
+    border: 2px solid transparent;
+    transition: all 0.25s;
+  }
+
+  .btn-gold {
+    background: var(--gold);
+    color: var(--navy);
+    border-color: var(--gold);
+  }
+
+  .btn-gold:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(232,160,32,0.35);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    border-color: rgba(255,255,255,0.3);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--white);
+    background: rgba(255,255,255,0.1);
+    transform: translateY(-2px);
+  }
+
+  .cta-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .cta-stat {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1.5rem;
+    text-align: center;
+  }
+
+  .cta-stat-number {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+
+  .cta-stat-label {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .region-content { grid-template-columns: 1fr; }
+    .region-map { order: -1; }
+    .counties-grid { grid-template-columns: 1fr; max-width: 450px; margin: 0 auto; }
+    .cta-content { grid-template-columns: 1fr; text-align: center; }
+    .cta-buttons { justify-content: center; }
+    .cta-stats { flex-direction: row; justify-content: center; flex-wrap: wrap; }
+  }
+
+  @media (max-width: 600px) {
+    .stats-grid { flex-direction: column; gap: 1.5rem; }
+    .stat-divider { width: 50px; height: 1px; }
+    .region-highlights { grid-template-columns: 1fr; }
+    .cta-stats { flex-direction: column; }
+  }
+</style>
