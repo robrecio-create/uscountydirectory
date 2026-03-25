@@ -1,0 +1,238 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { counties } from '../../data/constants';
+
+const alCounties = counties.filter(c => c.state === 'AL');
+const totalBusinesses = alCounties.reduce((sum, c) => sum + c.businesses, 0);
+---
+
+<Layout
+  title="Alabama — US County Directory"
+  description="Explore local businesses across Alabama's Gulf Coast. Mobile County and Baldwin County directories featuring local restaurants, shops, and services."
+>
+  <Header activePage="States" />
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="container hero-content">
+      <span class="hero-eyebrow animate">ALABAMA</span>
+      <h1 class="animate delay-1">Gulf Coast<br /><em>Alabama</em></h1>
+      <p class="hero-sub animate delay-2">
+        Discover local businesses across Alabama's stunning Gulf Coast. 
+        From Mobile's historic port to Gulf Shores' beautiful beaches.
+      </p>
+    </div>
+  </section>
+
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid animate">
+        <div class="stat-item">
+          <span class="stat-number">{alCounties.length}</span>
+          <span class="stat-label">Counties</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">{totalBusinesses.toLocaleString()}+</span>
+          <span class="stat-label">Businesses</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">12</span>
+          <span class="stat-label">Cities & Towns</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="counties-section">
+    <div class="container">
+      <div class="section-header animate">
+        <span class="section-eyebrow">Explore</span>
+        <h2>Alabama Counties</h2>
+        <p>Click on a county to explore local businesses</p>
+      </div>
+      <div class="counties-grid">
+        {alCounties.map((county, index) => (
+          <a href={county.url} class={`county-card animate delay-${index + 1}`} target="_blank" rel="noopener">
+            <div class="county-icon">🏛️</div>
+            <h3>{county.name}</h3>
+            <p class="county-desc">{county.description}</p>
+            <div class="county-stats">
+              <span class="county-businesses">{county.businesses.toLocaleString()}+ businesses</span>
+            </div>
+            <span class="county-link">Visit Directory →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<style>
+  .hero {
+    position: relative;
+    padding: 6rem 0 4rem;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: url('/images/hero-beach.jpg') center/cover;
+    opacity: 0.15;
+  }
+  .hero-content {
+    position: relative;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    color: var(--gold);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    color: var(--cream);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em {
+    color: var(--gold);
+    font-style: normal;
+  }
+  .hero-sub {
+    color: var(--cream);
+    opacity: 0.9;
+    font-size: 1.125rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .stats-section {
+    background: var(--cream);
+    padding: 3rem 0;
+    margin-top: -2rem;
+    position: relative;
+    z-index: 10;
+    border-radius: 1rem 1rem 0 0;
+  }
+  .stats-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    text-align: center;
+  }
+  .stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .stat-label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .stat-divider {
+    width: 1px;
+    height: 3rem;
+    background: var(--border);
+  }
+  .counties-section {
+    padding: 4rem 0;
+    background: var(--cream);
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .section-eyebrow {
+    color: var(--gold-dark);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .section-header h2 {
+    color: var(--navy);
+    font-size: 2rem;
+    margin: 0.5rem 0;
+  }
+  .section-header p {
+    color: var(--text-muted);
+  }
+  .counties-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .county-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border);
+  }
+  .county-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+  }
+  .county-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .county-card h3 {
+    color: var(--navy);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .county-desc {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+  .county-businesses {
+    font-size: 0.875rem;
+    color: var(--gold-dark);
+    font-weight: 600;
+  }
+  .county-link {
+    display: block;
+    margin-top: 1rem;
+    color: var(--navy);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  .animate {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease forwards;
+  }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
