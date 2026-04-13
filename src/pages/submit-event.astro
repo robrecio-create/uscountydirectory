@@ -157,11 +157,17 @@ const msCounties = counties.filter(c => c.state === 'MS' && ['jackson-county-ms'
 </Layout>
 
 <script>
-  // TODO: Phase 2 — POST directly to Supabase events table with source='submission'
-  // For now, show a success message (no backend wired yet for uscountydirectory).
   const form = document.getElementById('event-form') as HTMLFormElement;
   const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
   const formStatus = document.getElementById('form-status')!;
+
+  function formatTime12(time24: string): string {
+    if (!time24) return '';
+    const [h, m] = time24.split(':').map(Number);
+    const period = h >= 12 ? 'PM' : 'AM';
+    const hour12 = h % 12 || 12;
+    return `${hour12}:${m.toString().padStart(2, '0')} ${period}`;
+  }
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -170,12 +176,48 @@ const msCounties = counties.filter(c => c.state === 'MS' && ['jackson-county-ms'
     formStatus.textContent = '';
     formStatus.className = 'form-status';
 
-    // Simulate submission success — replace with Supabase insert in Phase 2
-    await new Promise(r => setTimeout(r, 800));
+    const getValue = (id: string) => (document.getElementById(id) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement).value;
 
-    formStatus.textContent = 'Event submitted successfully! We\'ll review it and add it to the calendar soon.';
-    formStatus.className = 'form-status success';
-    form.reset();
+    const data = {
+      title: getValue('event-title'),
+      date: getValue('event-date'),
+      end_date: getValue('event-end-date') || null,
+      start_time: formatTime12(getValue('start-time')),
+      end_time: formatTime12(getValue('end-time')),
+      venue: getValue('venue'),
+      county: getValue('event-county'),
+      city: getValue('event-city'),
+      address: getValue('address'),
+      cost: getValue('cost'),
+      recurring: getValue('recurring'),
+      description: getValue('description'),
+      website: getValue('website'),
+      contact_name: getValue('contact-name'),
+      contact_email: getValue('contact-email'),
+      contact_phone: getValue('contact-phone'),
+    };
+
+    try {
+      const res = await fetch('/api/submit-event', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        formStatus.textContent = 'Event submitted successfully! We\'ll review it and add it to the calendar soon.';
+        formStatus.className = 'form-status success';
+        form.reset();
+      } else {
+        formStatus.textContent = result.error || 'Something went wrong. Please try again.';
+        formStatus.className = 'form-status error';
+      }
+    } catch {
+      formStatus.textContent = 'Network error. Please check your connection and try again.';
+      formStatus.className = 'form-status error';
+    }
 
     submitBtn.disabled = false;
     submitBtn.textContent = 'Submit Event';

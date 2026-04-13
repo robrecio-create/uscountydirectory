@@ -3,11 +3,25 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { counties } from '../data/constants';
+import { getAllEvents, getCountyLabel, getCountyUrl } from '../lib/events';
 
-// TODO: Phase 2 — fetch approved events from shared Supabase events table
-// For now, this is a placeholder hub page that links to county event calendars.
+// Fetch all approved events across all counties from shared Supabase table
+const events = await getAllEvents();
 
 const msCounties = counties.filter(c => c.state === 'MS' && ['jackson-county-ms', 'harrison-county-ms', 'hancock-county-ms'].includes(c.slug));
+
+function getMonthDay(dateStr: string) {
+  const date = new Date(dateStr + 'T00:00:00');
+  return {
+    month: date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase(),
+    day: date.getDate(),
+  };
+}
+
+function formatDate(dateStr: string) {
+  const date = new Date(dateStr + 'T00:00:00');
+  return date.toLocaleDateString('en-US', { weekday: 'short', month: 'long', day: 'numeric', year: 'numeric' });
+}
 ---
 
 <Layout
@@ -26,23 +40,78 @@ const msCounties = counties.filter(c => c.state === 'MS' && ['jackson-county-ms'
 
   <section class="events-section">
     <div class="container">
-      <div class="intro-block">
-        <h2>Explore Events by County</h2>
-        <p>Each county directory hosts its own event calendar with local festivals, fundraisers, markets, and community happenings. Browse events in your county or submit your own.</p>
-      </div>
 
-      <div class="county-grid">
-        {msCounties.map(county => (
-          <a href={`${county.url}/events/`} target="_blank" rel="noopener" class="county-card">
-            <div class="county-card-header">
-              <span class="county-state">{county.state}</span>
-              <h3>{county.name}</h3>
-            </div>
-            <p>{county.description}</p>
-            <span class="county-link">View Events &rarr;</span>
-          </a>
-        ))}
-      </div>
+      {events.length > 0 ? (
+        <>
+          <div class="search-bar">
+            <input type="text" id="event-search" placeholder="Search events..." autocomplete="off" aria-label="Search events" />
+          </div>
+          <p class="result-count" id="event-result-count">{events.length} event{events.length === 1 ? '' : 's'} across {new Set(events.map(e => e.county)).size} {new Set(events.map(e => e.county)).size === 1 ? 'county' : 'counties'}</p>
+
+          <div class="events-list" id="events-list">
+            {events.map(event => {
+              const { month, day } = getMonthDay(event.date);
+              const countyName = getCountyLabel(event.county);
+              const countyUrl = getCountyUrl(event.county);
+              return (
+                <a href={`${countyUrl}/event/${event.slug}/`} target="_blank" rel="noopener" class="event-card" data-name={event.title.toLowerCase()} data-location={(event.city || '').toLowerCase()} data-county={countyName.toLowerCase()}>
+                  <div class="event-date-badge">
+                    <span class="event-month">{month}</span>
+                    <span class="event-day">{day}</span>
+                  </div>
+                  <div class="event-info">
+                    <h3>{event.title}</h3>
+                    <div class="event-meta">
+                      <span class="event-meta-item">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        {event.start_time}{event.end_time ? ` – ${event.end_time}` : ''}
+                      </span>
+                      <span class="event-meta-item">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        {event.venue}
+                      </span>
+                      {event.city && (
+                        <span class="event-meta-item">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                          {event.city}
+                        </span>
+                      )}
+                    </div>
+                    <span class="event-county-badge">{countyName}</span>
+                    {event.recurring && <span class="event-recurring">{event.recurring}</span>}
+                    <p class="event-excerpt">{event.content.substring(0, 120)}...</p>
+                  </div>
+                  <div class="event-arrow">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+
+          <p class="no-results" id="event-no-results" style="display:none;">No events found. Try a different search term.</p>
+        </>
+      ) : (
+        <>
+          <div class="intro-block">
+            <h2>Explore Events by County</h2>
+            <p>Each county directory hosts its own event calendar with local festivals, fundraisers, markets, and community happenings. Browse events in your county or submit your own.</p>
+          </div>
+
+          <div class="county-grid">
+            {msCounties.map(county => (
+              <a href={`${county.url}/events/`} target="_blank" rel="noopener" class="county-card">
+                <div class="county-card-header">
+                  <span class="county-state">{county.state}</span>
+                  <h3>{county.name}</h3>
+                </div>
+                <p>{county.description}</p>
+                <span class="county-link">View Events &rarr;</span>
+              </a>
+            ))}
+          </div>
+        </>
+      )}
 
       <div class="cta-block">
         <h2>Have an Event to Share?</h2>
@@ -91,6 +160,172 @@ const msCounties = counties.filter(c => c.state === 'MS' && ['jackson-county-ms'
     background: var(--gray-100);
   }
 
+  .search-bar {
+    max-width: 480px;
+    margin: 0 auto 1rem;
+  }
+
+  .search-bar input {
+    width: 100%;
+    padding: 0.85rem 1.25rem;
+    font-size: 1rem;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    background: var(--white);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .search-bar input:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(0,128,128,0.1);
+  }
+
+  .result-count {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    margin-bottom: 1.5rem;
+  }
+
+  .events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 4rem;
+  }
+
+  .event-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    text-decoration: none;
+    transition: all 0.25s;
+  }
+
+  .event-card:hover {
+    border-color: var(--teal);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+  }
+
+  .event-date-badge {
+    flex-shrink: 0;
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, var(--navy) 0%, #132240 100%);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .event-month {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--gold);
+  }
+
+  .event-day {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .event-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .event-info h3 {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    color: var(--navy);
+    margin-bottom: 0.4rem;
+  }
+
+  .event-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .event-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    color: var(--gray-500);
+  }
+
+  .event-meta-item svg {
+    color: var(--teal);
+    flex-shrink: 0;
+  }
+
+  .event-county-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--navy);
+    background: rgba(13,33,55,0.06);
+    padding: 0.15rem 0.6rem;
+    border-radius: 100px;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .event-recurring {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--teal);
+    background: rgba(0,128,128,0.08);
+    padding: 0.15rem 0.6rem;
+    border-radius: 100px;
+    margin-bottom: 0.5rem;
+  }
+
+  .event-excerpt {
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .event-arrow {
+    flex-shrink: 0;
+    color: var(--gray-300);
+    transition: all 0.25s;
+  }
+
+  .event-card:hover .event-arrow {
+    color: var(--teal);
+    transform: translateX(3px);
+  }
+
+  .no-results {
+    text-align: center;
+    color: var(--gray-500);
+    font-size: 0.95rem;
+    padding: 3rem 1rem;
+    font-style: italic;
+  }
+
   .intro-block {
     text-align: center;
     max-width: 600px;
@@ -133,9 +368,7 @@ const msCounties = counties.filter(c => c.state === 'MS' && ['jackson-county-ms'
     transform: translateY(-2px);
   }
 
-  .county-card-header {
-    margin-bottom: 0.75rem;
-  }
+  .county-card-header { margin-bottom: 0.75rem; }
 
   .county-state {
     display: inline-block;
@@ -168,9 +401,7 @@ const msCounties = counties.filter(c => c.state === 'MS' && ['jackson-county-ms'
     transition: color 0.2s;
   }
 
-  .county-card:hover .county-link {
-    color: var(--navy);
-  }
+  .county-card:hover .county-link { color: var(--navy); }
 
   .cta-block {
     text-align: center;
@@ -221,5 +452,34 @@ const msCounties = counties.filter(c => c.state === 'MS' && ['jackson-county-ms'
   @media (max-width: 650px) {
     .county-grid { grid-template-columns: 1fr; }
     .cta-block { padding: 2.5rem 1.5rem; }
+    .event-card { flex-direction: column; align-items: flex-start; }
+    .event-date-badge { width: 60px; height: 60px; }
+    .event-arrow { display: none; }
   }
 </style>
+
+<script>
+  const input = document.getElementById('event-search') as HTMLInputElement;
+  const list = document.getElementById('events-list');
+  const countEl = document.getElementById('event-result-count');
+  const noResults = document.getElementById('event-no-results');
+
+  if (input && list) {
+    const cards = Array.from(list.querySelectorAll('.event-card')) as HTMLElement[];
+
+    input.addEventListener('input', () => {
+      const q = input.value.toLowerCase().trim();
+      let visible = 0;
+      cards.forEach(card => {
+        const nameMatch = card.dataset.name?.includes(q);
+        const locMatch = card.dataset.location?.includes(q);
+        const countyMatch = card.dataset.county?.includes(q);
+        const match = !q || nameMatch || locMatch || countyMatch;
+        card.style.display = match ? '' : 'none';
+        if (match) visible++;
+      });
+      if (countEl) countEl.textContent = `${visible} event${visible === 1 ? '' : 's'}`;
+      if (noResults) noResults.style.display = visible === 0 ? '' : 'none';
+    });
+  }
+</script>
