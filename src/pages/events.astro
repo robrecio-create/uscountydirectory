@@ -1,0 +1,225 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { counties } from '../data/constants';
+
+// TODO: Phase 2 — fetch approved events from shared Supabase events table
+// For now, this is a placeholder hub page that links to county event calendars.
+
+const msCounties = counties.filter(c => c.state === 'MS' && ['jackson-county-ms', 'harrison-county-ms', 'hancock-county-ms'].includes(c.slug));
+---
+
+<Layout
+  title="Events — US County Directory"
+  description="Browse upcoming community events across our county network. Festivals, markets, fundraisers, and local happenings."
+>
+  <Header activePage="" />
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="page-eyebrow">Community Calendar</span>
+      <h1>Events Across Our Network</h1>
+      <p>Discover upcoming events, festivals, and activities across our county directories.</p>
+    </div>
+  </section>
+
+  <section class="events-section">
+    <div class="container">
+      <div class="intro-block">
+        <h2>Explore Events by County</h2>
+        <p>Each county directory hosts its own event calendar with local festivals, fundraisers, markets, and community happenings. Browse events in your county or submit your own.</p>
+      </div>
+
+      <div class="county-grid">
+        {msCounties.map(county => (
+          <a href={`${county.url}/events/`} target="_blank" rel="noopener" class="county-card">
+            <div class="county-card-header">
+              <span class="county-state">{county.state}</span>
+              <h3>{county.name}</h3>
+            </div>
+            <p>{county.description}</p>
+            <span class="county-link">View Events &rarr;</span>
+          </a>
+        ))}
+      </div>
+
+      <div class="cta-block">
+        <h2>Have an Event to Share?</h2>
+        <p>Submit your community event and reach residents and visitors across our county network.</p>
+        <a href="/submit-event/" class="btn btn-gold">Submit an Event</a>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<style>
+  .page-hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #132240 100%);
+    padding: 8rem 0 3.5rem;
+    text-align: center;
+  }
+
+  .page-eyebrow {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+
+  .page-hero h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--white);
+    margin-bottom: 0.75rem;
+  }
+
+  .page-hero p {
+    color: rgba(255,255,255,0.7);
+    font-size: 1.1rem;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .events-section {
+    padding: 4rem 0 5rem;
+    background: var(--gray-100);
+  }
+
+  .intro-block {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 3rem;
+  }
+
+  .intro-block h2 {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    color: var(--navy);
+    margin-bottom: 0.75rem;
+  }
+
+  .intro-block p {
+    color: var(--gray-600);
+    line-height: 1.7;
+  }
+
+  .county-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+
+  .county-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    text-decoration: none;
+    transition: all 0.25s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .county-card:hover {
+    border-color: var(--teal);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+  }
+
+  .county-card-header {
+    margin-bottom: 0.75rem;
+  }
+
+  .county-state {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.25rem;
+  }
+
+  .county-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    color: var(--navy);
+  }
+
+  .county-card p {
+    color: var(--gray-600);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    flex: 1;
+    margin-bottom: 1rem;
+  }
+
+  .county-link {
+    color: var(--teal);
+    font-weight: 700;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+  }
+
+  .county-card:hover .county-link {
+    color: var(--navy);
+  }
+
+  .cta-block {
+    text-align: center;
+    background: linear-gradient(135deg, var(--navy) 0%, #132240 100%);
+    border-radius: var(--radius-xl);
+    padding: 3.5rem 2rem;
+  }
+
+  .cta-block h2 {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    color: var(--white);
+    margin-bottom: 0.75rem;
+  }
+
+  .cta-block p {
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 1.5rem;
+    max-width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.7rem 1.6rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border-radius: var(--radius-md);
+    border: 2px solid transparent;
+    transition: all 0.25s;
+    text-decoration: none;
+  }
+
+  .btn-gold {
+    background: var(--gold);
+    color: var(--navy);
+    border-color: var(--gold);
+  }
+
+  .btn-gold:hover {
+    background: #f0b030;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(232,160,32,0.35);
+  }
+
+  @media (max-width: 650px) {
+    .county-grid { grid-template-columns: 1fr; }
+    .cta-block { padding: 2.5rem 1.5rem; }
+  }
+</style>

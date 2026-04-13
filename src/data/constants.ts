@@ -359,6 +359,7 @@ export const navLinks = [
   { label: 'Alabama', href: '/states/alabama/' },
   { label: 'Louisiana', href: '/states/louisiana/' },
   { label: 'Florida', href: '/states/florida/' },
+  { label: 'Events', href: '/events/' },
   { label: 'Pricing', href: '/pricing/' },
   { label: 'Contact', href: '/contact/' },
 ];
