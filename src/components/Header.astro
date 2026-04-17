@@ -22,6 +22,7 @@ const { activePage = '' } = Astro.props;
       {navLinks.map(link => (
         <a href={link.href} class={activePage === link.label ? 'nav-active' : ''}>{link.label}</a>
       ))}
+      <a href="https://theseawallms.com" target="_blank" rel="noopener noreferrer" class="nav-cta">Newsletter</a>
     </nav>
 
     <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
@@ -33,6 +34,7 @@ const { activePage = '' } = Astro.props;
     {navLinks.map(link => (
       <a href={link.href} class={activePage === link.label ? 'nav-active' : ''}>{link.label}</a>
     ))}
+    <a href="https://theseawallms.com" target="_blank" rel="noopener noreferrer" class="nav-cta-mobile">Newsletter</a>
   </nav>
 </header>
 
@@ -114,6 +116,28 @@ const { activePage = '' } = Astro.props;
 
   .nav-desktop a:hover { color: var(--white); }
   .nav-desktop a.nav-active { color: var(--gold); }
+  .nav-desktop .nav-cta,
+  .nav-mobile .nav-cta-mobile {
+    background: var(--gold);
+    color: var(--navy) !important;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .nav-desktop .nav-cta:hover,
+  .nav-mobile .nav-cta-mobile:hover {
+    opacity: 0.85;
+    color: var(--navy) !important;
+  }
+  .nav-mobile .nav-cta-mobile {
+    display: inline-block;
+    margin-top: 0.75rem;
+    width: fit-content;
+  }
 
   .nav-toggle {
     display: none;
